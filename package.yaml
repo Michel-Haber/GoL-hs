@@ -1,0 +1,52 @@
+name:                GoL
+version:             0.1.0.0
+github:              "Michel-Haber/GoL"
+license:             BSD3
+author:              "Michel"
+maintainer:          "michel-haber@hotmail.com"
+copyright:           "MIT"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/Michel-Haber/GoL#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- gloss >= 1.13
+- mtl >= 2.2
+- containers >= 0.6
+- gloss >= 1.8
+
+library:
+  source-dirs: src
+
+executables:
+  GoL-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - GoL
+
+tests:
+  GoL-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - GoL
