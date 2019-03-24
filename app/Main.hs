@@ -1,8 +1,8 @@
 module Main where
 
-import Lib
-import GLib
-import Control.Monad
+import           Control.Monad
+import           GLib
+import           Lib
 
 -- The board size is (x, y)
 type Size = Int
