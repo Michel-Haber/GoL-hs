@@ -1,12 +1,12 @@
 module Lib
-    ( Coord(Coord)
-    , getCoords
-    , Board
-    , Rules
-    , Neighbors
-    , CellState(CellState)
-    , advance
-    ) where
+  ( Board
+  , Rules
+  , Neighbors
+  , Coord(Coord)
+  , CellState(CellState)
+  , getCoords
+  , advance
+  ) where
 
 -- Game of life Haskell Implementation
 import           Control.Monad.State
@@ -14,10 +14,14 @@ import           Data.List
 import qualified Data.Map            as M
 
 -- The cell state is isomorphic too Bool.
-newtype CellState = CellState {getState :: Bool}
+newtype CellState = CellState
+  { getState :: Bool
+  }
 
 -- The coordinate of a cell
-newtype Coord = Coord {getCoords :: (Int, Int)} deriving (Eq, Ord, Show, Read)
+newtype Coord = Coord
+  { getCoords :: (Int, Int)
+  } deriving (Eq, Ord, Show, Read)
 
 -- The state of the board is simply the coordinates of its live cells
 type Board = [Coord]
@@ -50,10 +54,12 @@ tallyCoord nb c = do
 -- Extract the results from a TallyState
 toResults :: TallyState -> [(Coord, CellState, Int)]
 toResults = map flatten . M.toList . flip execState M.empty
-  where flatten (x, (y, z)) = (x, y, z)
+  where
+    flatten (x, (y, z)) = (x, y, z)
 
 -- Use A Rules and Neighbors function to advance the board one step in time
 advance :: Rules -> Neighbors -> Board -> Board
 advance rules nb =
   map first . filter (getState . rules) . toResults . tallyBoard nb
-  where first (x, _, _) = x
+  where
+    first (x, _, _) = x
