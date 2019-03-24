@@ -19,10 +19,10 @@ fps :: Int
 fps = 30
 
 background :: Color
-background = white
+background = black
 
 cellColor :: Color
-cellColor = black
+cellColor = white
 
 cellTemplate :: Float -> Picture
 cellTemplate s = color cellColor $ rectangleSolid s s
