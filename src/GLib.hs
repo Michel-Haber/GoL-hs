@@ -7,29 +7,28 @@ import Graphics.Gloss
 
 type Size = Int
 
+-- fromIntegral is too long, fint is better :p
 fint = fromIntegral
 
-windowSize :: Int
+-- Configuration
 windowSize = 600
+fps = 1
+background = black
+cellColor = white
 
+-- The window running the animation
 window :: Display
 window = InWindow "Game Of Life" (windowSize, windowSize) (10, 10)
 
-fps :: Int
-fps = 30
-
-background :: Color
-background = black
-
-cellColor :: Color
-cellColor = white
-
+-- Given the cell size, gives back a Cell Picture
 cellTemplate :: Float -> Picture
 cellTemplate s = color cellColor $ rectangleSolid s s
 
+-- Given the board size, renders a whole board into a Picture
 render :: Size -> Board -> Picture
 render s = rotate 90 . pictures . map (renderCell s . getCoords)
 
+-- Given the board size, renders a cell into a Picture
 renderCell :: Size -> (Int, Int) -> Picture
 renderCell s c = uncurry translate pixelCoords $ cellTemplate cellSize
   where
@@ -40,8 +39,8 @@ translateCoords :: Size -> (Int, Int) -> (Float, Float)
 translateCoords s (x,y) = (translate s x, translate s y)
   where
     translate n k = fint k / fint n * fint windowSize
-                  - fint windowSize / 2 + 5
-
+                  - fint windowSize / 2 + cellSize / 2
+    cellSize = fint windowSize / fint s
 
 -- Board size, Stepper function
 runGraphics :: Size -> (Board -> Board) -> Board -> IO ()
