@@ -2,18 +2,28 @@ module GLib
   ( runGraphics
   ) where
 
-import Lib
-import Graphics.Gloss
+import           Graphics.Gloss
+import           Lib
 
+-- Size of the board
 type Size = Int
+
+-- Main graphic simulation function
+-- Takes the Board size, the stepper function, and the initial board
+runGraphics :: Size -> (Board -> Board) -> Board -> IO ()
+runGraphics size evolve board =
+  simulate window background fps board (render size) (\_ _ b -> evolve b)
 
 -- fromIntegral is too long, fint is better :p
 fint = fromIntegral
 
 -- Configuration
 windowSize = 600
+
 fps = 1
+
 background = black
+
 cellColor = white
 
 -- The window running the animation
@@ -35,14 +45,10 @@ renderCell s c = uncurry translate pixelCoords $ cellTemplate cellSize
     cellSize = fint windowSize / fint s
     pixelCoords = translateCoords s c
 
+-- Translate board coordinates into graphics coordinated
 translateCoords :: Size -> (Int, Int) -> (Float, Float)
-translateCoords s (x,y) = (translate s x, translate s y)
+translateCoords s (x, y) = (translate s x, translate s y)
   where
-    translate n k = fint k / fint n * fint windowSize
-                  - fint windowSize / 2 + cellSize / 2
+    translate n k =
+      fint k / fint n * fint windowSize - fint windowSize / 2 + cellSize / 2
     cellSize = fint windowSize / fint s
-
--- Board size, Stepper function
-runGraphics :: Size -> (Board -> Board) -> Board -> IO ()
-runGraphics size evolve board =
-  simulate window background fps board (render size) (\_ _ b -> evolve b)
