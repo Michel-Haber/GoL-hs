@@ -28,7 +28,7 @@ cellTemplate :: Float -> Picture
 cellTemplate s = color cellColor $ rectangleSolid s s
 
 render :: Size -> Board -> Picture
-render s = pictures . map (renderCell s . getCoords)
+render s = rotate 90 . pictures . map (renderCell s . getCoords)
 
 renderCell :: Size -> (Int, Int) -> Picture
 renderCell s c = uncurry translate pixelCoords $ cellTemplate cellSize
